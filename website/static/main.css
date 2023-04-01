@@ -1,0 +1,24 @@
+.note-text {
+    color: #000; /* or any other color */
+  }
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    max-width: 500px; /* specify the maximum width of the images */
+  }
+  
+.carousel-item {
+   max-height: 400px; /* specify the maximum height of the carousel items */
+   overflow: hidden;
+  } 
+
+
+body {   
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;   
+  }

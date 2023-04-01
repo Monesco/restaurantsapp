@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Restaurants{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <h1 align="center">RESTAURANTS</h1>
+    <div class="row">
+      <div class="col-md-4">
+        <form method="GET">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ request.args.get('name', '') }}">
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" name="address" value="{{ request.args.get('address', '') }}">
+          </div>
+          <div class="form-group">
+            <label for="style">Style</label>
+            <input type="text" class="form-control" id="style" name="style" value="{{ request.args.get('style', '') }}">
+          </div>
+          <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+          {% for restaurant in restaurants %}
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{ restaurant.name }}</h5>
+                  <p class="card-text">{{ restaurant.description }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">{{ restaurant.address_line_1 }}</li>
+                  <li class="list-group-item">{{ restaurant.city }}, {{ restaurant.state }} {{ restaurant.zipcode }}</li>
+                  <li class="list-group-item">{{ restaurant.style }}</li>
+                </ul>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
