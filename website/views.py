@@ -9,6 +9,7 @@ import random
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, FloatField
 from wtforms.validators import DataRequired
+from .forms import RestaurantForm
 
 views = Blueprint('views', __name__)
 
@@ -17,18 +18,7 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
     restaurants=Restaurant.query.all()
-    images = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png']
-    if request.method == 'POST':
-        note = request.form.get('note')
-        if len(note) < 1:
-            flash('Note is too short!', category='error')
-        else:
-            new_note = Note(data=note, user_id=current_user.id)
-            db.session.add(new_note)
-            db.session.commit()
-            flash('Note added!', category='success')
-
-    return render_template("home.html", user=current_user, images=images, restaurants=restaurants)
+    return render_template("home.html", user=current_user, restaurants=restaurants)
 
 #remove note
 @views.route('/delete-note', methods=['POST'])
@@ -87,15 +77,4 @@ def restaurants():
     return render_template('restaurants.html', restaurants=restaurants, user=current_user)
 
 
-class RestaurantForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    description = TextAreaField('Description', validators=[DataRequired()])
-    rating = FloatField('Rating', validators=[DataRequired()])
-    address_line_1 = StringField('Address Line 1', validators=[DataRequired()])
-    address_line_2 = StringField('Address Line 2')
-    number = StringField('Number', validators=[DataRequired()])
-    city = StringField('City', validators=[DataRequired()])
-    state = StringField('State', validators=[DataRequired()])
-    country = StringField('Country', validators=[DataRequired()])
-    zipcode = StringField('Zipcode', validators=[DataRequired()])
-    style = StringField('Style', validators=[DataRequired()])
+

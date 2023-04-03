@@ -8,12 +8,8 @@ import time
 import random
 
 
-
-
 db = SQLAlchemy()
 DB_NAME = "database.db"
-
-
 
 
 #creating app
