@@ -47,7 +47,22 @@
             </div>
         </div>
     </div>
-          
+{#  Need to change the Note table to include a field for the restaurant id that the review pertains to.
+    <div class="col-12 col-md-4">
+        <div class="list-group">
+            <h2>Reviews</h2>
+            {% for note in notes %}
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ note.title }}</h5>
+                        <small>{{ note.date_created }}</small>
+                    </div>
+                    <p class="mb-1">{{ note.text }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+#}
 </body>
 
 

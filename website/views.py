@@ -92,6 +92,7 @@ def restaurant_specifics(restaurant_id):
     restaurant = Restaurant.query.get(restaurant_id)
     restaurant_images = Restaurant_Images.query.get(restaurant_id)
 
+
     return render_template('restaurant_specifics.html', restaurant=restaurant, restaurant_images = restaurant_images, user=current_user)
 
 
