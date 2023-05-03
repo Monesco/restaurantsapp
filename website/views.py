@@ -76,5 +76,13 @@ def restaurants():
     print(restaurants)
     return render_template('restaurants.html', restaurants=restaurants, user=current_user)
 
+#restaurant specifics
+@views.route('/restaurant/<int:restaurant_id>')
+def restaurant_specifics(restaurant_id):
+
+    # Query the database for restaurants with optional filters
+    restaurant = Restaurant.query.get(restaurant_id)
+
+    return render_template('restaurant_specifics.html', restaurant=restaurant, user=current_user)
 
 

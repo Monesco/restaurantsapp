@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{ restaurant.name }} - Restaurant Details</title>
+	<!-- Include your CSS and JS files here -->
+    <link rel="stylesheet" href="\static\restaurant_specifics.css">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-img">
+				<img src="{{ restaurant.image_url }}" alt="{{ restaurant.name }}" class="img-fluid">
+			</div>
+			<div class="col-info">
+				<h1>{{ restaurant.name }}</h1>
+				<p>{{ restaurant.description }}</p>
+				<p><strong>Address:</strong> {{ restaurant.address_line_1 }}, {{ restaurant.address_line_2 }}</p>
+                <p>{{ restaurant.city }}, {{ restaurant.state }} {{ restaurant.zipcode }}, {{ restaurant.country }}</p>
+				<p><strong>Phone:</strong> {{ restaurant.number }}</p>
+				<p><strong>Style:</strong> {{ restaurant.style }}</p>
+			</div>
+			</div>
+            <div class="row">
+              <div class="col-12">
+                <div class="stars">
+                  {% for i in range(1, 6) %}
+                    {% if i <= restaurant.rating %}
+                      <i class="fa fa-star filled"></i>
+                    {% else %}
+                      <i class="fa fa-star empty"></i>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+                <div class="menu-section">
+                    <h2>{{ restaurant.name }}'s Menu</h2>
+                    <img src="{{ 'https://printablee.com/postpic/2012/03/applebee-s-printable-menu-with-prices_15046.jpg' }}" alt="{{ restaurant.name }} menu">
+                </div>
+            </div>
+        </div>
+    </div>
+          
+</body>
+
+
+{% endblock %}
