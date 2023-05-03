@@ -3,6 +3,22 @@
 
 {% block content %}
 <div class="container-fluid">
-  <h1 align="center">DASHBOARD</h1>        
-        </div>
+  <h1 align="center">DASHBOARD</h1>  
+
+  {% for restaurant in restaurants %}
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{ restaurant.name }}</h5>
+                  <p class="card-text">{{ restaurant.description }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">{{ restaurant.address_line_1 }}</li>
+                  <li class="list-group-item">{{ restaurant.city }}, {{ restaurant.state }} {{ restaurant.zipcode }}</li>
+                  <li class="list-group-item">{{ restaurant.style }}</li>
+                </ul>
+              </div>
+            </div>
+          {% endfor %}
+ </div>
 {% endblock %}
