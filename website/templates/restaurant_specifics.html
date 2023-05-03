@@ -11,6 +11,7 @@
 <body>
 	<div class="container">
 		<div class="row">
+      <div class="col-8">
 			<div class="col-img">
 				<img src="{{ restaurant_images.thumbnail_image }}" alt="{{ restaurant.name }}" class="img-fluid">
 			</div>
@@ -24,7 +25,7 @@
 			</div>
 			</div>
             <div class="row">
-              <div class="col-12">
+              <div class="col-4">
                 <div class="stars">
                   {% for i in range(1, 6) %}
                     {% if i <= restaurant.rating %}
@@ -33,7 +34,32 @@
                       <i class="fa fa-star empty"></i>
                     {% endif %}
                   {% endfor %}
+                  {#Testing for database heart#}
+                  {% if current_user.is_authenticated %}
+                    {% if favorite and favorite.favorite %}
+                      <button class="heart filled" data-restaurant-id="{{ restaurant.id }}" data-user-id="{{ current_user.id }}">&#9829;</button>
+                    {% else %}
+                        <button class="heart" data-restaurant-id="{{ restaurant.id }}" data-user-id="{{ current_user.id }}">&#9829;</button>
+                    {% endif %}
+                  {% endif %}
+                  
+                  <script>
+                    const heartButton = document.querySelector('.heart');
+                    const user_id = {{ current_user.id }};
+                    const restaurant_id = {{ restaurant.id }};
+                  
+                    heartButton.addEventListener('click', async () => {
+                      const response = await fetch(`/toggle_favorite/${user_id}/${restaurant_id}`);
+                      const data = await response.json();
+                      if (data.is_favorite) {
+                        heartButton.classList.add('filled');
+                      } else {
+                        heartButton.classList.remove('filled');
+                      }
+                    });   
+                </script>
                 </div>
+              </div>
               </div>
             </div>
           </div>

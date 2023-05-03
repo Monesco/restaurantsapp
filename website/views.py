@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify, url_for, redirect, send_from_directory, current_app
 from flask_login import login_required, current_user
-from .models import Note, Restaurant, Restaurant_Images  # import the Restaurant model
+from .models import Note, Restaurant, Restaurant_Images, User_Favorites  # import the Restaurant model
 from . import db
 import json
 import time
@@ -10,6 +10,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, FloatField
 from wtforms.validators import DataRequired
 from .forms import RestaurantForm
+from sqlalchemy.orm.exc import NoResultFound
 
 views = Blueprint('views', __name__)
 
@@ -91,8 +92,36 @@ def restaurant_specifics(restaurant_id):
     # Query the database for restaurants with optional filters
     restaurant = Restaurant.query.get(restaurant_id)
     restaurant_images = Restaurant_Images.query.get(restaurant_id)
+    
+    user_id = current_user.id if current_user.is_authenticated else None
+    favorite = None
+    if user_id:
+        # Try to find the user's favorite for the current restaurant
+        favorite = User_Favorites.query.filter_by(user_id=user_id, restaurant_id=restaurant.id).first()
+    if request.method == 'POST':
+        if not favorite:
+            # If the user's favorite doesn't exist yet, create it
+            favorite = User_Favorites(user_id=user_id, restaurant_id=restaurant.id, favorite=True)
+            db.session.add(favorite)
+        else:
+            # Toggle the favorite value
+            favorite.favorite = not favorite.favorite
+        db.session.commit()
 
+    return render_template('restaurant_specifics.html', restaurant=restaurant, restaurant_images = restaurant_images, favorite=favorite, user=current_user)
 
-    return render_template('restaurant_specifics.html', restaurant=restaurant, restaurant_images = restaurant_images, user=current_user)
+@views.route('/toggle_favorite/<int:user_id>/<int:restaurant_id>')
+@login_required
+def toggle_favorite(user_id, restaurant_id):
+    try:
+        favorite = User_Favorites.query.filter_by(user_id=user_id, restaurant_id=restaurant_id).one()
+        favorite.favorite = not favorite.favorite
+        db.session.commit()
+        return jsonify({'is_favorite': favorite.favorite})
+    except NoResultFound:
+        favorite = User_Favorites(user_id=user_id, restaurant_id=restaurant_id, favorite=True)
+        db.session.add(favorite)
+        db.session.commit()
+        return jsonify({'is_favorite': True})
 
 
