@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify, url_for, redirect, send_from_directory, current_app
 from flask_login import login_required, current_user
-from .models import Note, Restaurant  # import the Restaurant model
+from .models import Note, Restaurant, Restaurant_Images  # import the Restaurant model
 from . import db
 import json
 import time
@@ -18,7 +18,8 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
     restaurants=Restaurant.query.all()
-    return render_template("home.html", user=current_user, restaurants=restaurants)
+    restaurant_images = Restaurant_Images.query.all()
+    return render_template("home.html", user=current_user, restaurants=restaurants, restaurant_images=restaurant_images)
 
 #remove note
 @views.route('/delete-note', methods=['POST'])
@@ -55,6 +56,13 @@ def add_restaurant():
         )
         db.session.add(restaurant)
         db.session.commit()
+        restaurant_images = Restaurant_Images(
+            restaurant_id = restaurant.id,
+            thumbnail_image = form.thumbnail_url.data,
+            menu_image = form.menu_url.data
+        )
+        db.session.add(restaurant_images)
+        db.session.commit()
         flash('Restaurant added successfully', 'success')
         return redirect(url_for('views.home'))
     return render_template('add_restaurant.html', form=form, user=current_user)
@@ -82,7 +90,8 @@ def restaurant_specifics(restaurant_id):
 
     # Query the database for restaurants with optional filters
     restaurant = Restaurant.query.get(restaurant_id)
+    restaurant_images = Restaurant_Images.query.get(restaurant_id)
 
-    return render_template('restaurant_specifics.html', restaurant=restaurant, user=current_user)
+    return render_template('restaurant_specifics.html', restaurant=restaurant, restaurant_images = restaurant_images, user=current_user)
 
 

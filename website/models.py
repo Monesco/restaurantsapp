@@ -1,6 +1,9 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship, backref
+from sqlalchemy.ext.declarative import declarative_base
 
 
 class Note(db.Model):
@@ -31,3 +34,9 @@ class Restaurant(db.Model):
     country = db.Column(db.String(100))
     zipcode = db.Column(db.String(20))
     style = db.Column(db.String(100))
+    
+class Restaurant_Images(db.Model):
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), primary_key=True)
+    thumbnail_image = db.Column(db.String(100))
+    menu_image = db.Column(db.String(100))
+    restaurant = db.relationship('Restaurant', backref='images')
