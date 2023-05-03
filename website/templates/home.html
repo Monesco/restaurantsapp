@@ -25,7 +25,13 @@
           <img class="card-img-top" src="{{ restaurant_image.thumbnail_image }}" alt="{{ restaurant.name }}">
           {% endfor %}
           <div class="card-body">
-            <h5 class="card-title">{{ restaurant.name }}</h5>
+            <div class="restaurant-info">
+              <h5 class="card-title">{{ restaurant.name }}</h5>
+              {#Heart Code#}
+              {% if restaurant.id in favorite_restaurant_ids %}
+              <div class="heart filled">&#9829;</div>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>

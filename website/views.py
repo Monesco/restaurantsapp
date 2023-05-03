@@ -20,7 +20,12 @@ views = Blueprint('views', __name__)
 def home():
     restaurants=Restaurant.query.all()
     restaurant_images = Restaurant_Images.query.all()
-    return render_template("home.html", user=current_user, restaurants=restaurants, restaurant_images=restaurant_images)
+    
+    # Get the current user's favorite restaurants
+    favorite_restaurants = User_Favorites.query.filter_by(user_id=current_user.id, favorite=True).all()
+    favorite_restaurant_ids = [favorite.restaurant_id for favorite in favorite_restaurants]
+    
+    return render_template("home.html", user=current_user, restaurants=restaurants, restaurant_images=restaurant_images, favorite_restaurant_ids=favorite_restaurant_ids)
 
 #remove note
 @views.route('/delete-note', methods=['POST'])
