@@ -51,7 +51,8 @@ def add_restaurant():
             state=form.state.data,
             country=form.country.data,
             zipcode=form.zipcode.data,
-            style=form.style.data
+            style=form.style.data,
+            totalReviews=form.totalReviews.data
         )
         db.session.add(restaurant)
         db.session.commit()
@@ -61,15 +62,17 @@ def add_restaurant():
 
 @views.route('/restaurants')
 def restaurants():
-    name_filter = request.args.get('name', '')
-    address_filter = request.args.get('address', '')
-    style_filter = request.args.get('style', '')
+    name_filter = request.args.get('Name', '')
+    city_filter = request.args.get('City', '')
+    style_filter = request.args.get('Style', '')
+    rating_filter = request.args.get('Rating','')
 
     # Query the database for restaurants with optional filters
     restaurants = Restaurant.query \
         .filter(Restaurant.name.ilike(f'%{name_filter}%')) \
-        .filter(Restaurant.address_line_1.ilike(f'%{address_filter}%')) \
+        .filter(Restaurant.city.ilike(f'%{city_filter}%')) \
         .filter(Restaurant.style.ilike(f'%{style_filter}%')) \
+        .filter(Restaurant.rating.ilike(f'%{rating_filter}'))\
         .all()
 
     # Render the restaurants template with the filtered restaurants

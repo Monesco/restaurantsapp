@@ -31,3 +31,4 @@ class Restaurant(db.Model):
     country = db.Column(db.String(100))
     zipcode = db.Column(db.String(20))
     style = db.Column(db.String(100))
+    totalReviews = db.Column(db.Float)
