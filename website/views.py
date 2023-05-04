@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, flash, jsonify, url_for, redirect, send_from_directory, current_app
 from flask_login import login_required, current_user
 from .models import Note, Restaurant, Restaurant_Images, User_Favorites  # import the Restaurant model
+from .models import Restaurant_seed
 from . import db
 import json
 import time
@@ -20,6 +21,12 @@ views = Blueprint('views', __name__)
 def home():
     restaurants=Restaurant.query.all()
     restaurant_images = Restaurant_Images.query.all()
+    
+    if restaurants == [] or restaurant_images == []:
+        Restaurant_seed()
+        restaurants=Restaurant.query.all()
+        restaurant_images = Restaurant_Images.query.all()
+        
     
     # Get the current user's favorite restaurants
     favorite_restaurants = User_Favorites.query.filter_by(user_id=current_user.id, favorite=True).all()

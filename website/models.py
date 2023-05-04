@@ -1,6 +1,7 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+from .restaurant_seed import restaurant_seed_list
 
 
 
@@ -43,3 +44,36 @@ class Restaurant_Images(db.Model):
     thumbnail_image = db.Column(db.String(100))
     menu_image = db.Column(db.String(100))
     restaurant = db.relationship('Restaurant', backref='images')
+    
+    
+    
+def Restaurant_seed():
+    count = 0
+    for restaurant_data in restaurant_seed_list:
+        print("restraunt list accessed")
+        print(restaurant_data)
+        # Add the restaurant to the main table
+        restaurant = Restaurant(
+            name= restaurant_data[0],
+            description= restaurant_data[1],
+            rating= int(restaurant_data[2]),
+            address_line_1= restaurant_data[3],
+            number= restaurant_data[4],
+            city= restaurant_data[5],
+            state= restaurant_data[6],
+            country= restaurant_data[7],
+            zipcode= restaurant_data[8],
+            style= restaurant_data[9]
+        )
+        db.session.add(restaurant)
+        db.session.commit()
+
+        # Add the images to the images table, if they exist
+        images = Restaurant_Images(
+            restaurant_id = restaurant.id,
+            thumbnail_image = restaurant_data[10],
+            menu_image = restaurant_data[11]
+        )
+        db.session.add(images)
+        db.session.commit()
+        
