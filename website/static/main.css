@@ -22,3 +22,10 @@ body {
     background-position: center center;
     background-attachment: fixed;   
   }
+  
+  .navbar-brand {
+    color: white; 
+    text-align: center; 
+    width: 100%;
+    font-weight: bold;
+  }

@@ -135,5 +135,16 @@ def toggle_favorite(user_id, restaurant_id):
         db.session.add(favorite)
         db.session.commit()
         return jsonify({'is_favorite': True})
+    
+
+@views.route('/user_profile')
+@login_required
+def user_profile():
+    user = current_user
+    user_favorites = db.session.query(Restaurant).join(User_Favorites)\
+        .filter(User_Favorites.user_id == current_user.id, User_Favorites.favorite == True)\
+        .all()
+    restaurant_images = Restaurant_Images.query.all()
+    return render_template('user_profile.html', user=user, user_favorites=user_favorites, restaurant_images = restaurant_images)
 
 

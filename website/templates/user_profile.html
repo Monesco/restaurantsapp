@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Your Profile{% endblock %}
+
+
+{% block content %}
+<link rel="stylesheet" href=".\static\user_profile.css">
+<div class="container">
+  <h3>Profile</h3>
+  <div class="row">
+    <div class="col-md-6">
+      <p>{{ user.first_name }}</p>
+      <p>{{ user.email }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Favorite Restaurants</h4>
+      <ul>
+        <body>
+            <div class="container-fluid">
+              <div class="row">
+                {% for restaurant in user_favorites %}
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                  <a href="{{ url_for('views.restaurant_specifics', restaurant_id=restaurant.id) }}">
+                  <div class="card">
+                    {% for restaurant_image in restaurant_images if restaurant_image.restaurant_id == restaurant.id %}
+                    <img class="card-img-top" src="{{ restaurant_image.thumbnail_image }}" alt="{{ restaurant.name }}">
+                    {% endfor %}
+                    <div class="card-body">
+                      <div class="restaurant-info">
+                        <h5 class="card-title">{{ restaurant.name }}</h5>
+                        {#Heart Code#}
+                        {% if restaurant.id in favorite_restaurant_ids %}
+                        <div class="heart filled">&#9829;</div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </body>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
