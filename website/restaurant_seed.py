@@ -10,7 +10,7 @@ restaurant_seed_list = [
                 "United States",
                 "58103",
                 "Bar and Grill",
-                "https://upload.wikimedia.org/wikipedia/commons/6/6e/Applebee's_night_view.jpg", #might error at '%' not sure if I did it right
+                "https://upload.wikimedia.org/wikipedia/commons/6/6e/Applebee's_night_view.jpg",
                 "https://printablee.com/postpic/2012/03/applebee-s-printable-menu-with-prices_15046.jpg"
             ],
             [
