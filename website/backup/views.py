@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify, url_for, redirect, send_from_directory, current_app
 from flask_login import login_required, current_user
-from .models import Note
+from models import Note, Restaurant
 from . import db, generate_text, generate_image, transcribe_audio, generate_speech, generate_chaos, your_friend_snoopy
 import json
 import time

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{ restaurant.name }} - Restaurant Details</title>
+	<!-- Include your CSS and JS files here -->
+    <link rel="stylesheet" href="\static\restaurant_specifics.css">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-img">
+				<img src="{{ restaurant_images.thumbnail_image }}" alt="{{ restaurant.name }}" class="img-fluid">
+			</div>
+			<div class="col-info">
+				<h1>{{ restaurant.name }}</h1>
+				<p>{{ restaurant.description }}</p>
+				<p><strong>Address:</strong> {{ restaurant.address_line_1 }}, {{ restaurant.address_line_2 }}</p>
+                <p>{{ restaurant.city }}, {{ restaurant.state }} {{ restaurant.zipcode }}, {{ restaurant.country }}</p>
+				<p><strong>Phone:</strong> {{ restaurant.number }}</p>
+				<p><strong>Style:</strong> {{ restaurant.style }}</p>
+        <form action="location.href={{url_for('views.writeReview',restaurant_id=restaurant.id)}}"></form>>
+          <input type="submit" value="Write Review"/>
+        </form> 
+			</div>
+			</div>
+            <div class="row">
+              <div class="col-12">
+                <div class="stars">
+                  {% for i in range(1, 6) %}
+                    {% if i <= restaurant.rating %}
+                      <i class="fa fa-star filled"></i>
+                    {% else %}
+                      <i class="fa fa-star empty"></i>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+                <div class="menu-section">
+                    <h2>{{ restaurant.name }}'s Menu</h2>
+                    <img src="{{ restaurant_images.menu_image }}" alt="{{ restaurant.name }} menu">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <div class="list-group">
+            <h2>Reviews</h2>
+            {% for note in notes %}
+            {% for user in users %}
+              {% if user.id == note.user_id and restaurant.id == note.restaurant_id %}
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ user.first_name  }}</h5>
+                        {% for i in range(1, 6) %}
+                          {% if i <= note.rating |float %}
+                            <i class="fa fa-star filled"></i>
+                          {% else %}
+                            <i class="fa fa-star empty"></i>
+                          {% endif %}
+                        {% endfor %}
+                        <small>{{ note.date }}</small>
+                        <p class="card-text">{{ note.data }}</p>
+                      </div>
+                    </div>
+                </a>
+              {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+
+
+{% endblock %}

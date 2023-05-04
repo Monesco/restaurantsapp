@@ -16,3 +16,9 @@ class RestaurantForm(FlaskForm):
     country = StringField('Country', validators=[DataRequired()])
     zipcode = StringField('Zipcode', validators=[DataRequired()])
     style = StringField('Style', validators=[DataRequired()])
+    thumbnail_url=StringField('Thumbnail Url',validators=[DataRequired()])
+    menu_url=StringField('Menu Url',validators=[DataRequired()])
+
+class ReviewForm(FlaskForm):
+    reviewText= TextAreaField('Review',validators=[DataRequired()])
+    rating = StringField('Rating', validators=[DataRequired()])

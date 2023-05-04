@@ -1,6 +1,10 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship, backref
+from sqlalchemy.ext.declarative import declarative_base
+
 
 
 class Note(db.Model):
@@ -8,6 +12,8 @@ class Note(db.Model):
     data = db.Column(db.String(10000))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    restaurant_id=db.Column(db.Integer, db.ForeignKey('restaurant.id'))
+    rating = db.Column(db.Float)
 
 
 class User(db.Model, UserMixin):
@@ -32,3 +38,10 @@ class Restaurant(db.Model):
     zipcode = db.Column(db.String(20))
     style = db.Column(db.String(100))
     totalReviews = db.Column(db.Float)
+    reviews=db.relationship('Note')
+
+class Restaurant_Images(db.Model):
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), primary_key=True)
+    thumbnail_image = db.Column(db.String(100))
+    menu_image = db.Column(db.String(100))
+    restaurant = db.relationship('Restaurant', backref='images')

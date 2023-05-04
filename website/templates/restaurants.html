@@ -32,7 +32,7 @@
             {% if restaurant.name == request.args.get('name', '') or request.args.get('name', '')==""%}
             {% if restaurant.city == request.args.get('city', '') or request.args.get('city', '')==""%}
             {% if restaurant.style == request.args.get('style', '') or request.args.get('style', '')==""%}
-            {% if restaurant.rating >= request.args.get('rating', '') | int or request.args.get('rating', '')==""%}
+            {% if restaurant.rating >= request.args.get('rating', '') | int or (request.args.get('rating', '')=="")%}
             <div class="col-md-4">
               <div class="card">
                 <div class="card-body">
