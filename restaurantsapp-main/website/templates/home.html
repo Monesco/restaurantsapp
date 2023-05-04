@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <h1 align="center">DASHBOARD</h1>        
+</div>
+      
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurant Reviews</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href=".\static\home.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      {% for restaurant in restaurants %}
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+        <a href="{{ url_for('views.restaurant_specifics', restaurant_id=restaurant.id) }}">
+        <div class="card">
+          {% for restaurant_image in restaurant_images if restaurant_image.restaurant_id == restaurant.id %}
+          <img class="card-img-top" src="{{ restaurant_image.thumbnail_image }}" alt="{{ restaurant.name }}">
+          {% endfor %}
+          <div class="card-body">
+            <h5 class="card-title">{{ restaurant.name }}</h5>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+{% endblock %}
