@@ -28,6 +28,37 @@ restaurant_seed_list = [
                 "https://post.healthline.com/wp-content/uploads/2021/09/olive-garden-732x549-thumbnail.jpg",
                 "https://image.zmenu.com/menupic/1179626/s_20200511170939356150.jpg",
                 "1"
+            ],
+            [
+                "Texas Roadhouse",
+                "Texas Roadhouse is an American steakhouse chain that specializes in steaks in a Texan and Southwestern cuisine style.",
+                "4",
+                "3350 55th St NW",
+                "(507) 286-7427",
+                "Rochester",
+                "Minnesota",
+                "United States",
+                "55901",
+                "Steak House",
+                "https://cdn.barstoolsports.com/wp-content/uploads/2015/03/2c7ddf920ca464d.jpg",
+                "https://image.zmenu.com/menupic/1177568/w_20200501235514868370.jpeg",
+                "5"
+            ],
+            [
+                "Subway",
+                "Casual counter-serve chain for build-your-own sandwiches & salads, with health-conscious options.",
+                "2",
+                "3615 21st Ave NW",
+                "(507) 281-8291",
+                "Rochester",
+                "Minnesota",
+                "United States",
+                "55901",
+                "Sandwiches",
+                "https://s3-media0.fl.yelpcdn.com/bphoto/a_pwDVxAwTyCxY5Fvup7Ew/l.jpg",
+                "https://prnewswire2-a.akamaihd.net/p/1893751/sp/189375100/thumbnail/entry_id/0_wyu5sqnv/def_height/2700/def_width/2700/version/100012/type/1",
+                "7"
             ]
+            
         # add more restaurants here...
         ]
