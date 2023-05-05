@@ -158,17 +158,20 @@ def writeReview(restaurant_id):
     form = ReviewForm()
     restaurant=Restaurant.query.get(restaurant_id)
     if form.validate_on_submit():
-        review=Note(
-            data=form.reviewText.data,
-            date=func.now(),
-            user_id=current_user.id,
-            restaurant_id=restaurant_id,
-            rating=form.rating.data
-        )
-        db.session.query(Restaurant).filter(Restaurant.id==restaurant_id).update({'rating':(((Restaurant.rating)*(Restaurant.totalReviews)+review.rating)/(Restaurant.totalReviews+1))})
-        db.session.query(Restaurant).filter(Restaurant.id==restaurant_id).update({'totalReviews':Restaurant.totalReviews+1})
-        db.session.add(review)
-        db.session.commit()
-        flash('Review added successfully', 'success')
-        return redirect(url_for('views.home'))
+        if float(form.rating.data)<0 or float(form.rating.data)>5;
+            flash("Rating can only be between 0-5",category="error")
+        else:
+            review=Note(
+                data=form.reviewText.data,
+                date=func.now(),
+                user_id=current_user.id,
+                restaurant_id=restaurant_id,
+                rating=form.rating.data
+            )
+            db.session.query(Restaurant).filter(Restaurant.id==restaurant_id).update({'rating':(((Restaurant.rating)*(Restaurant.totalReviews)+review.rating)/(Restaurant.totalReviews+1))})
+            db.session.query(Restaurant).filter(Restaurant.id==restaurant_id).update({'totalReviews':Restaurant.totalReviews+1})
+            db.session.add(review)
+            db.session.commit()
+            flash('Review added successfully', 'success')
+            return redirect(url_for('views.home'))
     return render_template('review.html',restaurant=restaurant, user=current_user, form=form)
