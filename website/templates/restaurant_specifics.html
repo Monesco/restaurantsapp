@@ -85,6 +85,7 @@
                     <div class="card">
                       <div class="card-body">
                         <h5 class="card-title">{{ user.first_name  }}</h5>
+			<div class="stars">
                         {% for i in range(1, 6) %}
                           {% if i <= note.rating %}
                             <i class="fa fa-star filled"></i>
@@ -92,6 +93,7 @@
                             <i class="fa fa-star empty"></i>
                           {% endif %}
                         {% endfor %}
+			</div>
                         <small>{{ note.date }}</small>
                         <p class="card-text">{{ note.data }}</p>
                       </div>
