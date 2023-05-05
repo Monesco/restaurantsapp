@@ -45,8 +45,8 @@
 
                   <script>
                     const heartButton = document.querySelector('.heart');
-                    const user_id =  current_user.id ;
-                    const restaurant_id =  restaurant.id ;
+                    const user_id = {{ current_user.id }};
+                    const restaurant_id = {{ restaurant.id }};
 
                     heartButton.addEventListener('click', async () => {
                       const response = await fetch(`/toggle_favorite/${user_id}/${restaurant_id}`);
