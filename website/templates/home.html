@@ -15,26 +15,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <div class="container-fluid">
+  <div class="sidebar">
+    <div>
+      <form method="GET">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" name="name" value="{{ request.args.get('name', '') }}">
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" class="form-control" id="city" name="city" value="{{ request.args.get('city', '') }}">
+        </div>
+        <div class="form-group">
+          <label for="style">Style</label>
+          <input type="text" class="form-control" id="style" name="style" value="{{ request.args.get('style', '') }}">
+        </div>
+        <div class="form-group">
+          <label for="rating">Rating</label>
+          <input type="text" class="form-control" id="rating" name="rating" value="{{ request.args.get('rating', '') }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+      </form>
+    </div>
+  </div>
+  <div class="container-fluid" id="display">
     <div class="row">
       {% for restaurant in restaurants %}
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-        <a href="{{ url_for('views.restaurant_specifics', restaurant_id=restaurant.id) }}">
-        <div class="card">
-          {% for restaurant_image in restaurant_images if restaurant_image.restaurant_id == restaurant.id %}
-          <img class="card-img-top" src="{{ restaurant_image.thumbnail_image }}" alt="{{ restaurant.name }}">
-          {% endfor %}
-          <div class="card-body">
-            <div class="restaurant-info">
-              <h5 class="card-title">{{ restaurant.name }}</h5>
-              {#Heart Code#}
-              {% if restaurant.id in favorite_restaurant_ids %}
-              <div class="heart filled">&#9829;</div>
-              {% endif %}
+        {% if request.args.get('name', '').lower() in restaurant.name.lower() or request.args.get('name', '')==""%}
+        {% if restaurant.city == request.args.get('city', '') or request.args.get('city', '')==""%}
+        {% if restaurant.style == request.args.get('style', '') or request.args.get('style', '')==""%}
+        {% if restaurant.rating |float >= request.args.get('rating', '') | float or (request.args.get('rating', '')=="")%}
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+          <a href="{{ url_for('views.restaurant_specifics', restaurant_id=restaurant.id) }}">
+          <div class="card">
+            {% for restaurant_image in restaurant_images if restaurant_image.restaurant_id == restaurant.id %}
+            <img class="card-img-top" src="{{ restaurant_image.thumbnail_image }}" alt="{{ restaurant.name }}">
+            {% endfor %}
+            <div class="card-body">
+              <div class="restaurant-info">
+                <h5 class="card-title">{{ restaurant.name }}</h5>
+                {#Heart Code#}
+                {% if restaurant.id in favorite_restaurant_ids %}
+                <div class="heart filled">&#9829;</div>
+                {% endif %}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        {%endif%}
+        {%endif%}
+        {%endif%}
+        {%endif%}
       {% endfor %}
     </div>
   </div>

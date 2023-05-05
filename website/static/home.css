@@ -52,3 +52,22 @@
     justify-content: space-between;
     align-items: center;
   }
+  .sidebar{
+    z-index: 1;
+    top:55px;
+    left:0;
+    padding-top:0px;
+    width: 200px;
+    position:fixed;
+    height: auto;
+    overflow: hidden;
+  }
+  .sidebar form {
+    display: block;
+    padding: 16px;
+  }
+  #display{
+    left: 200px;
+    padding: 1px 16px;
+    height:1000px;
+  }

@@ -1,6 +1,9 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship, backref
+from sqlalchemy.ext.declarative import declarative_base
 from .restaurant_seed import restaurant_seed_list
 
 
@@ -10,6 +13,8 @@ class Note(db.Model):
     data = db.Column(db.String(10000))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    restaurant_id=db.Column(db.Integer, db.ForeignKey('restaurant.id'))
+    rating = db.Column(db.Float)
 
 
 class User(db.Model, UserMixin):
@@ -18,7 +23,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
     notes = db.relationship('Note')
-    
+
 class User_Favorites(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), primary_key=True)
@@ -38,15 +43,17 @@ class Restaurant(db.Model):
     country = db.Column(db.String(100))
     zipcode = db.Column(db.String(20))
     style = db.Column(db.String(100))
-    
+    totalReviews = db.Column(db.Float)
+    reviews=db.relationship('Note')
+
 class Restaurant_Images(db.Model):
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), primary_key=True)
     thumbnail_image = db.Column(db.String(100))
     menu_image = db.Column(db.String(100))
     restaurant = db.relationship('Restaurant', backref='images')
-    
-    
-    
+
+
+
 def Restaurant_seed():
     count = 0
     for restaurant_data in restaurant_seed_list:
@@ -63,7 +70,8 @@ def Restaurant_seed():
             state= restaurant_data[6],
             country= restaurant_data[7],
             zipcode= restaurant_data[8],
-            style= restaurant_data[9]
+            style= restaurant_data[9],
+            totalReviews=restaurant_data[12]     
         )
         db.session.add(restaurant)
         db.session.commit()
@@ -76,4 +84,3 @@ def Restaurant_seed():
         )
         db.session.add(images)
         db.session.commit()
-        

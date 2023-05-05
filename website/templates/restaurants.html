@@ -3,7 +3,7 @@
 
 {% block content %}
   <div class="container-fluid">
-    <h1 align="center">RESTAURANTS</h1>
+    <h1 align ="center">RESTAURANTS</h1>
     <div class="row">
       <div class="col-md-4">
         <form method="GET">
@@ -12,12 +12,16 @@
             <input type="text" class="form-control" id="name" name="name" value="{{ request.args.get('name', '') }}">
           </div>
           <div class="form-group">
-            <label for="address">Address</label>
-            <input type="text" class="form-control" id="address" name="address" value="{{ request.args.get('address', '') }}">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" name="city" value="{{ request.args.get('city', '') }}">
           </div>
           <div class="form-group">
             <label for="style">Style</label>
             <input type="text" class="form-control" id="style" name="style" value="{{ request.args.get('style', '') }}">
+          </div>
+          <div class="form-group">
+            <label for="rating">Rating</label>
+            <input type="text" class="form-control" id="rating" name="rating" value="{{ request.args.get('rating', '') }}">
           </div>
           <button type="submit" class="btn btn-primary">Filter</button>
         </form>
@@ -25,6 +29,10 @@
       <div class="col-md-8">
         <div class="row">
           {% for restaurant in restaurants %}
+            {% if restaurant.name == request.args.get('name', '') or request.args.get('name', '')==""%}
+            {% if restaurant.city == request.args.get('city', '') or request.args.get('city', '')==""%}
+            {% if restaurant.style == request.args.get('style', '') or request.args.get('style', '')==""%}
+            {% if restaurant.rating >= request.args.get('rating', '') | int or (request.args.get('rating', '')=="")%}
             <div class="col-md-4">
               <div class="card">
                 <div class="card-body">
@@ -38,6 +46,10 @@
                 </ul>
               </div>
             </div>
+            {%endif%}
+            {%endif%}
+            {%endif%}
+            {%endif%}
           {% endfor %}
         </div>
       </div>

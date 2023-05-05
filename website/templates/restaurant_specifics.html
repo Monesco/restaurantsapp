@@ -11,7 +11,6 @@
 <body>
 	<div class="container">
 		<div class="row">
-      <div class="col-8">
 			<div class="col-img">
 				<img src="{{ restaurant_images.thumbnail_image }}" alt="{{ restaurant.name }}" class="img-fluid">
 			</div>
@@ -19,16 +18,17 @@
 				<h1>{{ restaurant.name }}</h1>
 				<p>{{ restaurant.description }}</p>
 				<p><strong>Address:</strong> {{ restaurant.address_line_1 }}, {{ restaurant.address_line_2 }}</p>
-                <p>{{ restaurant.city }}, {{ restaurant.state }} {{ restaurant.zipcode }}, {{ restaurant.country }}</p>
+        <p>{{ restaurant.city }}, {{ restaurant.state }} {{ restaurant.zipcode }}, {{ restaurant.country }}</p>
 				<p><strong>Phone:</strong> {{ restaurant.number }}</p>
 				<p><strong>Style:</strong> {{ restaurant.style }}</p>
+        <button onclick="window.location.href+='/review';">Write Review</button>
 			</div>
 			</div>
             <div class="row">
-              <div class="col-4">
+              <div class="col-12">
                 <div class="stars">
                   {% for i in range(1, 6) %}
-                    {% if i <= restaurant.rating %}
+                    {% if i <= restaurant.rating |float %}
                       <i class="fa fa-star filled"></i>
                     {% else %}
                       <i class="fa fa-star empty"></i>
@@ -42,12 +42,12 @@
                         <button class="heart" data-restaurant-id="{{ restaurant.id }}" data-user-id="{{ current_user.id }}">&#9829;</button>
                     {% endif %}
                   {% endif %}
-                  
+
                   <script>
                     const heartButton = document.querySelector('.heart');
-                    const user_id = {{ current_user.id }};
-                    const restaurant_id = {{ restaurant.id }};
-                  
+                    const user_id =  current_user.id ;
+                    const restaurant_id =  restaurant.id ;
+
                     heartButton.addEventListener('click', async () => {
                       const response = await fetch(`/toggle_favorite/${user_id}/${restaurant_id}`);
                       const data = await response.json();
@@ -57,9 +57,8 @@
                         heartButton.classList.remove('filled');
                       }
                     });   
-                </script>
+                  </script>
                 </div>
-              </div>
               </div>
             </div>
           </div>
@@ -73,22 +72,35 @@
             </div>
         </div>
     </div>
-{#  Need to change the Note table to include a field for the restaurant id that the review pertains to.
+
     <div class="col-12 col-md-4">
         <div class="list-group">
             <h2>Reviews</h2>
             {% for note in notes %}
+            {% for user in users %}
+              {% if user.id == note.user_id and restaurant.id == note.restaurant_id %}
                 <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ note.title }}</h5>
-                        <small>{{ note.date_created }}</small>
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ user.first_name  }}</h5>
+                        {% for i in range(1, 6) %}
+                          {% if i <= note.rating %}
+                            <i class="fa fa-star filled"></i>
+                          {% else %}
+                            <i class="fa fa-star empty"></i>
+                          {% endif %}
+                        {% endfor %}
+                        <small>{{ note.date }}</small>
+                        <p class="card-text">{{ note.data }}</p>
+                      </div>
                     </div>
-                    <p class="mb-1">{{ note.text }}</p>
                 </a>
+              {% endif %}
+            {% endfor %}
             {% endfor %}
         </div>
     </div>
-#}
+
 </body>
 
 
