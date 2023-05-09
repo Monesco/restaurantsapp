@@ -158,7 +158,7 @@ def writeReview(restaurant_id):
     form = ReviewForm()
     restaurant=Restaurant.query.get(restaurant_id)
     if form.validate_on_submit():
-        if float(form.rating.data)<0 or float(form.rating.data)>5;
+        if float(form.rating.data)<0 or float(form.rating.data)>5:
             flash("Rating can only be between 0-5",category="error")
         else:
             review=Note(
